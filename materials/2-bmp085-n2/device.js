@@ -23,6 +23,25 @@ service.connect(bmp085, function(err, session) {
 		    // 2. Write the code to send these messages to the Nitrogen service.
 
 		    // HINT: see http://nitrogen.io/.../ for an example.
+        console.log('The temperature is currently ' + data.temperature + 'C and the pressure is currently ' + data.pressure + ' HPa.');
+
+        var messages = [
+            new nitrogen.Message({
+                type: 'pressure',
+                body: {
+                    pressure: data.pressure
+                }
+            }),
+
+            new nitrogen.Message({
+                type: 'temperature',
+                body: {
+                    temperature: data.temperature
+                }
+            })
+        ];
+
+        nitrogen.Message.sendMany(session, messages);
 		});
 
 	}, 5 * 1000);
